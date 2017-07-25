@@ -1,0 +1,20 @@
+api_sticky_create:
+    path:     /sticky
+    defaults: { _controller: APIBundle:Sticky:create }
+    requirements:
+        _method: POST
+api_sticky_read:
+    path:     /sticky
+    defaults: { _controller: APIBundle:Sticky:read }
+    requirements:
+        _method: GET
+api_sticky_update:
+    path:     /sticky/{id}
+    defaults: { _controller: APIBundle:Sticky:update, id: 0 }
+    requirements:
+        _method: PATCH
+api_sticky_delete:
+    path:     /sticky/{id}
+    defaults: { _controller: APIBundle:Sticky:delete, id: 0 }
+    requirements:
+        _method: DELETE

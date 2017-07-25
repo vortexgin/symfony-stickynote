@@ -1,0 +1,139 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@VortexginCoreBundle/Resources/config/config.yml" }
+    - { resource: "@VortexginUserBundle/Resources/config/config.yml" }
+    - { resource: "@APIBundle/Resources/config/config.yml" }
+    - { resource: "@WebBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    database_path: "%kernel.root_dir%/db/inalix_%kernel.environment%.db3"
+    redis.host.master: redis://127.0.0.1:8079
+    redis.host.slave1: redis://127.0.0.1:8079
+
+framework:
+    #esi: ~
+    #translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.root_dir%/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id: ~
+    fragments: ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        path:     "%database_path%"
+        charset: UTF8
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ WebBundle ]
+          
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+# SNC Redis Configuration
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn:
+                - %redis.host.master%/0?alias=master
+                - %redis.host.slave1%/0
+            logging: %kernel.debug%
+            options:
+                replication: true
+        session:
+            type: predis
+            alias: session
+            dsn:
+                - %redis.host.master%/0
+            logging: %kernel.debug%
+        monolog:
+            type: predis
+            alias: monolog
+            dsn:
+                - %redis.host.master%/0
+            logging: false
+        metadata:
+            type: predis
+            alias: metadata
+            dsn:
+                - %redis.host.master%/1
+            logging: %kernel.debug%
+        query:
+            type: predis
+            alias: query
+            dsn:
+                - %redis.host.master%/1
+            logging: %kernel.debug%
+        result:
+            type: predis
+            alias: result
+            dsn:
+                - %redis.host.master%/1
+            logging: %kernel.debug%
+    session:
+        client: session
+        prefix: sess
+        use_as_default: true
+        ttl: 1200
+    doctrine:
+        metadata_cache:
+            client: metadata
+            entity_manager: default
+            document_manager: default
+        result_cache:
+            client: result
+            entity_manager: default
+        query_cache:
+            client: query
+            entity_manager: default
+    monolog:
+        client: monolog
+        key: monolog
+monolog:
+    handlers:
+        main:
+            type: service
+            id: snc_redis.monolog.handler
+            level: debug
+
+vortexgin_user:
+    user_manager: Vortexgin\UserBundle\Manager\UserManager

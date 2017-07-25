@@ -1,0 +1,38 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Sticky Notes board</title>
+    <meta name="description" content="Sticky Notes by vortexgin">
+    <meta name="author" content="vortexgin">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="https://www.shieldui.com/shared/components/latest/css/light/all.min.css">
+
+    {% stylesheets
+        '@WebBundle/Resources/public/plugins/font-awesome-4.7.0/css/font-awesome.min.css'
+        '@WebBundle/Resources/public/plugins/toastr/toastr.min.css'
+        '@WebBundle/Resources/public/css/template.min.css'
+    %}
+      <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+</head>
+
+<body>
+    <div id="board"></div>
+    <a href="javascript:;" class="button" id="addNew"><i class="fa fa-plus-circle fa-3x"></i></a>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    {% javascripts
+        '@WebBundle/Resources/public/plugins/toastr/toastr.min.js'
+        '@WebBundle/Resources/public/js/general.min.js'
+        '@WebBundle/Resources/public/js/sticky.min.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+</body>
+</html>

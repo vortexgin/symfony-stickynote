@@ -1,0 +1,6 @@
+services:
+    api.manager.sticky:
+        class: APIBundle\Manager\StickyManager
+        arguments:
+            - @service_container
+            - %api.class.sticky%

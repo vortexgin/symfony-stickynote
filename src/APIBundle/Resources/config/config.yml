@@ -1,0 +1,3 @@
+api:
+  sticky:
+    class: APIBundle\Entity\Sticky
